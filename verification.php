@@ -1,44 +1,46 @@
 <?php
 session_start();
+try
+{
+    $bdd = new PDO('mysql:host=localhost;dbname=bddpres_1_w3cam_fr', 'root', '');
+}
+catch (Exception $e)
+{
+    die('Erreur : ' . $e->getMessage());
+}
+
 if(isset($_POST['username']) && isset($_POST['password']))
 {
-    // connexion à la base de données
-    $db_username = 'root';
-    $db_password = '';
-    $db_name     = 'connexion';
-    $db_host     = 'localhost';
-    $db = mysqli_connect($db_host, $db_username, $db_password,$db_name)
-           or die('could not connect to database');
-    
     // on applique les deux fonctions mysqli_real_escape_string et htmlspecialchars
     // pour éliminer toute attaque de type injection SQL et XSS
-    $username = mysqli_real_escape_string($db,htmlspecialchars($_POST['username'])); 
-    $password = mysqli_real_escape_string($db,htmlspecialchars($_POST['password']));
+    $username = htmlspecialchars($_POST['username']); 
+    $password = htmlspecialchars($_POST['password']);
+
+    $check = $bdd->prepare('SELECT username, password FROM user_connexion WHERE username = ?');
+    $check->execute(array($username));
+    $data = $check->fetch();
+    $row = $check->rowCount();
+    echo("0"); 
+ if($row == 1)
+   {   
+        echo("1");
+    if(filter_var($username, FILTER_VALIDATE_USERNAME))
+      {
+        echo("2");
+         $password = hash('SHA256',$password);
+         if($data['password'] === $password)
+         {
+            echo("3");
+               $_SESSION['username'] = $data['pseudo'];
+               header('Location:index.php');
+
+         }else header('Location: login.php?login_err=password');
     
-    if($username !== "" && $password !== "")
-    {
-        $requete = "SELECT count(*) FROM utilisateur where 
-              nom_utilisateur = '".$username."' and mot_de_passe = '".$password."' ";
-        $exec_requete = mysqli_query($db,$requete);
-        $reponse      = mysqli_fetch_array($exec_requete);
-        $count = $reponse['count(*)'];
-        if($count!=0) // nom d'utilisateur et mot de passe correctes
-        {
-           $_SESSION['username'] = $username;
-           header('Location: principale.php');
-        }
-        else
-        {
-           header('Location: login.php?erreur=1'); // utilisateur ou mot de passe incorrect
-        }
-    }
-    else
-    {
-       header('Location: login.php?erreur=2'); // utilisateur ou mot de passe vide
-    }
-}
-else
-{
-   header('Location: login.php');
-}
+      } else header('Location: login.php?login_err=username'); 
+
+   } else header('Location: login.php?err=already'); 
+
+} else header('Location: index.php');
+
 mysqli_close($db); // fermer la connexion
+?>
