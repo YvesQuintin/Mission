@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!isset($_SESSION['email'])){
+    header("Location: login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html>
  <head>
@@ -7,10 +14,8 @@
  
  </head>
  <body>
-    <header >
 	    <?php include('header.php');?>
-    </header>
-<img class="logo"  src="/img/w3cam-logo.jpg"height=""width="26%"/>  </a>
+
     <h1> Liste des commandes de HIKVISION </h1>
  <?php
 
@@ -43,20 +48,31 @@ $depart = ($pageCourante-1)*$nbr_commandes;
 	?>
 
     <?php include('barre_recherche.php');?>
-<!-- div contenant les infos des commandes HIKVISION -->
+    <div class="container">
+<ul class="responsive-table">
+    <li class="table-header">
+      <div class="col col-1">ID</div>
+      <div class="col col-2">Nom du Produit</div>
+      <div class="col col-3">Quantité</div>
+      <div class="col col-3">Prix taxe inclus</div>
+      <div class="col col-3">Date ajout</div>
+      <div class="col col-3">Total Prix</div>
+      <div class="col col-4">MODIFIER</div>
+      
+    </li>
+<!-- div contenant les infos des commandes AXIS -->
 <?php while($order = $orderStatement->fetch()) { ?>
-	<div class="liste">
-        <ul>
-          <STRONG> ID de la commande HIKVISION : </STRONG> <?php echo $order['id_order']; ?>
-          <li><strong> Nom du produit : </strong> <?php echo $order['product_name']; ?> </li>
-          <li><strong> Quantité du produit : </strong> <?php echo $order['product_quantity']; ?> </li>
-          <li><STRONG> Prix total taxes inclues : </STRONG> <?php echo $order['total_price_tax_incl']; ?></li>
-		  <li><STRONG> Date d ajout : </STRONG> <?php echo $order['date_add']; ?></li>
-		  <li><STRONG> Total du prix de la commande = </STRONG> <?php echo $order['total_prix']. '<br>'; ?></li>
-
-        </ul>
-      </div>
+    <li class="table-row">
+    <div class="col col-1" data-label="id_order">  <?php echo $order['id_order']. '<br>';?> </div>
+    <div class="col col-2" data-label="product_name">  <?php echo $order['product_name'] ?></div> 
+    <div class="col col-3" data-label="quantite"><?php echo '&emsp;'.'&emsp;'. $order ['product_quantity']. '<br>'; ?></div>
+    <div class="col col-3" data-label="prix">   <?php echo $order['total_price_tax_incl']. '<br>'; ?> </div>
+    <div class="col col-3" data-label="date">  <?php echo $order['date_add']. '<br>'; ?> </div>
+    <div class="col col-3" data-label="total_prix">  <?php echo $order['total_prix']. '<br>'; ?></div>
+    <div class="col col-4" data-label="MODIFIER"><a href="modif.php?id_order=<?php echo $order['id_order'];?>"><span id=button>Modifier</span id=button> </a></div>
+</li>
       <?php } ?>
+</ul>
   <ul class=pagination>
 <!-- flèche de la pagination qui permet de retourner en arrière -->
 <a class=pagination href="?page= <?php if($pageCourante != 1){ echo $pageCourante-1; } else{ echo $pageCourante; }?>">&laquo;</a>
@@ -65,9 +81,9 @@ $depart = ($pageCourante-1)*$nbr_commandes;
 //code permettant d'afficher la page actuelle dans l'url et dans la pagination
  for($i=1;$i<=20;$i++){
      if($i == $pageCourante) {
-         echo $i;
+         echo $i .'&nbsp &nbsp';
      } else{
-     echo '<a href="commandeHikvision.php?page='.$i.'">'.$i.'</a>&nbsp';
+     echo '<a href="commandeHikvision.php?page='.$i.'">'.$i.'</a>&nbsp &nbsp';
      }
  }
  ?>

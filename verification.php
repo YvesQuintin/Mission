@@ -1,5 +1,11 @@
 <?php
 session_start();
+if(isset($_SESSION['email'])){
+    header("Location: index.php");
+    exit;
+}
+?>
+<?php
 try
 {
     $bdd = new PDO('mysql:host=localhost;dbname=bddpres_1_w3cam_fr', 'root', '');
@@ -9,38 +15,34 @@ catch (Exception $e)
     die('Erreur : ' . $e->getMessage());
 }
 
-if(isset($_POST['username']) && isset($_POST['password']))
+if(isset($_POST['email']) && isset($_POST['passwd']))
 {
     // on applique les deux fonctions mysqli_real_escape_string et htmlspecialchars
     // pour éliminer toute attaque de type injection SQL et XSS
-    $username = htmlspecialchars($_POST['username']); 
-    $password = htmlspecialchars($_POST['password']);
+    $email = htmlspecialchars($_POST['email']); 
+    $passwd = htmlspecialchars($_POST['passwd']);
 
-    $check = $bdd->prepare('SELECT username, password FROM user_connexion WHERE username = ?');
-    $check->execute(array($username));
+    $check = $bdd->prepare('SELECT email, passwd FROM ps_employee WHERE email = ?');
+    $check->execute(array($email));
     $data = $check->fetch();
-    $row = $check->rowCount();
-    echo("0"); 
+    $row = $check->rowCount(); 
  if($row == 1)
    {   
-        echo("1");
-    if(filter_var($username, FILTER_VALIDATE_USERNAME))
+    if(filter_var($email, FILTER_VALIDATE_EMAIL))
       {
-        echo("2");
-         $password = hash('SHA256',$password);
-         if($data['password'] === $password)
+        $password = hash('SHA256',$password);
+         if($data['passwd'] === $passwd)
          {
-            echo("3");
-               $_SESSION['username'] = $data['pseudo'];
+               $_SESSION['email'] = $data['email'];
                header('Location:index.php');
 
-         }else header('Location: login.php?login_err=password');
+         }else header('Location: login.php?login_err=passwd');
     
-      } else header('Location: login.php?login_err=username'); 
+      } else header('Location: login.php?login_err=email'); 
 
    } else header('Location: login.php?err=already'); 
 
-} else header('Location: index.php');
+} else header('Location: login.php');
 
-mysqli_close($db); // fermer la connexion
+mysqli_close($bdd); // fermer la connexion
 ?>

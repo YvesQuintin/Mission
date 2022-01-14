@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!isset($_SESSION['email'])){
+    header("Location: login.php");
+    exit;
+}
+?>
 <html>
 <head>
   <title>W3CAM</title>
@@ -23,12 +30,17 @@
                     <li>
                         <a href="#">Ubitech</a></li>
                     <li>
-                        <a href="#">Modification Prix HikVision</a></li>
+                        <a href="#">Modification Prix HikVision</a>
+                        <ul class='children'>
+                            <li><form name="prixHikvision" action="prixHikvision.php" method="GET">
+                                <input id="tete" type ="submit" value = "Modification Prix HIKVISION"></form></li>
+                        </ul>
+                    </li>
                     <li>
                         <a href="#">Document Forcast JC</a>
                     </li>
                     <li>
-                        <a>Produit en stock Limite</a>
+                    <a href="Deconnexion.php">Déconnexion</a>
                     </li>
                 </ul>
             </div>

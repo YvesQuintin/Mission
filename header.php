@@ -21,14 +21,32 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#">Ubitech</a></li>
+                        <a href="#">Marque Produit</a>
+                        <ul class='children'>
+                            <li><form name="selection par marque" action="produit_marque.php" method="GET">
+                                <input id="tete" type ="submit" value = "Modification des prix pour une marque"></form></li>
+                        </ul>
+                        </li>
                     <li>
-                        <a href="#">Modification Prix HikVision</a></li>
-                    <li>
-                        <a href="#">Document Forcast JC</a>
+                        <a href="#">Modification Prix HikVision</a>
+                        <ul class='children'>
+                            <li><form name="prixHikvision" action="prixHikvision.php" method="GET">
+                                <input id="tete" type ="submit" value = "Modification Prix HIKVISION"></form></li>
+                        </ul>
                     </li>
                     <li>
-                        <a>Produit en stock Limite</a>
+                        <a href="#">Produit en Stock</a>
+                        <ul class='children'>
+                            <li>
+                                <form name="produitStock" action="produitStock.php" method="GET">
+                                <input id="tete" type ="submit" value = "Produit en Stock"></form></li>
+                            <li> 
+                                <form name="produitQuantiteLimite" action="produitQuantiteLimite.php" method="GET">
+                                <input id="tete" type ="submit" value = "Produit en Stock Limite"></form></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="Deconnexion.php">Déconnexion</a>
                     </li>
                 </ul>
             </div>

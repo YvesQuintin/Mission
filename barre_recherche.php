@@ -4,7 +4,7 @@
 }
 ?> 
 
-<form id="barrecherche" method="GET">
-<input type="search" name="s" placeholder="Rechercher une commande" style="margin: auto; width: 238px;" >
-<input type="submit" style="margin: auto; width:238px; " value="envoyer">
+<form class="search" method="GET">
+<input class="send" type="search" name="s" placeholder="Rechercher une commande" >
+<button type="submit" value="envoyer">Rechercher</button>
 </form>

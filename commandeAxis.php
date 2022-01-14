@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(!isset($_SESSION['email'])){
+    header("Location: login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,23 +46,35 @@ $orderStatement = $bdd->query("SELECT ps_orders.id_order, product_name, product_
 
     ?>
     <?php include('barre_recherche.php');?>
+
+    <div class="container">
+<ul class="responsive-table">
+    <li class="table-header">
+      <div class="col col-1">ID</div>
+      <div class="col col-2">Nom du Produit</div>
+      <div class="col col-3">Quantité</div>
+      <div class="col col-3">Prix taxe inclus</div>
+      <div class="col col-3">Date ajout</div>
+      <div class="col col-3">Total Prix</div>
+      <div class="col col-4">MODIFIER</div>
+      
+    </li>
 <!-- div contenant les infos des commandes AXIS -->
 <?php while($order = $orderStatement->fetch()) { ?>
-<div class='liste'>
-    <ul>
-        <STRONG> ID de la Commande AXIS <?php echo $order['id_order']. '<br>';?> </STRONG>
-        <li> <STRONG> Nom du produit = </STRONG> <?php echo $order['product_name'] ?> </li>
-        <li> <STRONG> Quantité </STRONG><?php echo $order ['product_quantity']. '<br>'; ?></li>
-        <li> <STRONG> Total prix taxe inclus = </STRONG> <?php echo $order['total_price_tax_incl']. '<br>'; ?> </li>
-        <li> <STRONG> Date d'ajout = </STRONG> <?php echo $order['date_add']. '<br>'; ?> </li>
-        <li> <STRONG> Total du prix de la commande = </STRONG> <?php echo $order['total_prix']. '<br>'; ?></li>
-        
+    <li class="table-row">
+    <div class="col col-1" data-label="id_product">  <?php echo $order['id_order']. '<br>';?> </div>
+    <div class="col col-2" data-label="product_name">  <?php echo $order['product_name'] ?></div> 
+    <div class="col col-3" data-label="quantite"><?php echo '&emsp;'.'&emsp;'.  $order ['product_quantity']. '<br>'; ?></div>
+    <div class="col col-3" data-label="prix">   <?php echo $order['total_price_tax_incl']. '<br>'; ?> </div>
+    <div class="col col-3" data-label="date">  <?php echo $order['date_add']. '<br>'; ?> </div>
+    <div class="col col-3" data-label="total_prix">  <?php echo $order['total_prix']. '<br>'; ?></div>
+    <div class="col col-4" data-label="MODIFIER"><a href="modif.php?id_order=<?php echo $order['id_order'];?>"><span id=button>Modifier</span id=button> </a></div>
     
     
-    </ul>
-    <a href="modif.php?id_order=<?php echo $order['id_order'];?>"><span id=button>Modifier</span id=button> </a>
-    </div>
+</li>
     <?php } ?>
+</ul>
+    </div>
     <ul class=pagination>
 <!-- flèche de la pagination qui permet de retourner en arrière -->
 <a class=pagination href="?page= <?php if($pageCourante != 1){ echo $pageCourante-1; } else{ echo $pageCourante; }?>">&laquo;</a>
