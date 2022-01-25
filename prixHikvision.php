@@ -16,7 +16,15 @@ if(!isset($_SESSION['email'])){
     <?php include('header.php');?>
  
     <h1> Modification des commandes de HIKVISION </h1>
-
+    <form enctype="multipart/form-data" action="import_csv.php" method="post">
+        <div >
+            <label >Choisir un fichier CSV</label>
+            <input type="file" name="file"  accept=".csv">
+          
+            <button type="submit" name="import" >Import</button>
+           
+        </div>
+    </form>
     <?php
 $bdd = new PDO('mysql:host=localhost;dbname=bddpres_1_w3cam_fr',
 'root',

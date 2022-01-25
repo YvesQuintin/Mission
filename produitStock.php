@@ -30,7 +30,7 @@ catch (Exception $e)
 
 //pagination
 $nbr_commandes = 20;
-$TotalesCommandesReq = $bdd->query("SELECT id_product FROM ps_stock_available WHERE quantity > 0");
+$TotalesCommandesReq = $bdd->query("SELECT id_product FROM ps_stock_available");
 $TotalesCommandes = $TotalesCommandesReq->rowCount();
 $pagesTotales = ($TotalesCommandes/$nbr_commandes)+1;
 
@@ -44,7 +44,7 @@ if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] > 0 && $_GET['
 $depart = ($pageCourante-1)*$nbr_commandes;
 
 
-$quantityStock = $bdd->query("SELECT ps_product_lang.id_product, name, quantity FROM ps_stock_available INNER JOIN ps_product_lang ON ps_stock_available.id_product = ps_product_lang.id_product WHERE quantity > 0 GROUP BY id_product LIMIT $depart, $nbr_commandes");
+$quantityStock = $bdd->query("SELECT ps_product_lang.id_product, name, quantity FROM ps_stock_available INNER JOIN ps_product_lang ON ps_stock_available.id_product = ps_product_lang.id_product GROUP BY id_product LIMIT $depart, $nbr_commandes");
 
 ?>
 <div class="container">
@@ -65,7 +65,13 @@ $quantityStock = $bdd->query("SELECT ps_product_lang.id_product, name, quantity 
         
             <div class="col col-5" data-label="quantite"> <?php echo  $quantity['quantity']. '<br>'; ?></div>
             <div class="col col-5" >&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>
-    <?php   } 
+    <?php   }
+    else if($quantity['quantity'] == 0){?>
+        
+        <div class="col col-5" data-label="quantite"> <?php echo $quantity['quantity']. '<br>';?> </div>
+        <div class="col col-5" data-label="quantite"id=button> <?php echo 'Ruputure'. '<br>';?> </div> <?php
+        
+    }
         else{ ?>
             <div class="col col-5" data-label="quantite"> <?php echo $quantity['quantity']. '<br>';?> </div>
             <div class="col col-5" data-label="LIMITE"><a href="produitQuantiteLimite.php"><span id=button>LIMITE</span action="produitQuantiteLimite.php" id=button> </a></div>

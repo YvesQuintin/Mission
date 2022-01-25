@@ -19,7 +19,7 @@ if(isset($_POST['update'])) {
     $wholesale_price = $_POST['wholesale_price'];
 
 
-    $requete = "UPDATE ps_product SET wholesale_price=:prix_achat, price=:prix_achat*1.4 WHERE id_product=:nouvelleid";
+    $requete = "UPDATE ps_product SET wholesale_price=:prix_achat WHERE id_product=:nouvelleid";
 
     $query = $bdd->prepare($requete);
     $query ->bindParam(':nouvelleid',$productid, PDO::PARAM_STR);
@@ -27,9 +27,8 @@ if(isset($_POST['update'])) {
     $query ->execute();
 
     echo "<script>alert('Vous avez modifier un produit');</script>";
-    echo "<script> window.location.href='prixHikvision.php'</script>";
+    echo "<script> window.location.href='produit_marque.php'</script>";
 }
-
 
 ?>
 

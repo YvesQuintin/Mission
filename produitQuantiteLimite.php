@@ -30,7 +30,7 @@ catch (Exception $e)
 
 //pagination
 $nbr_commandes = 20;
-$TotalesCommandesReq = $bdd->query("SELECT id_product FROM ps_stock_available WHERE quantity > 0 AND quantity <= 5");
+$TotalesCommandesReq = $bdd->query("SELECT id_product FROM ps_stock_available WHERE quantity <= 5");
 $TotalesCommandes = $TotalesCommandesReq->rowCount();
 $pagesTotales = ($TotalesCommandes/$nbr_commandes)+1;
 
